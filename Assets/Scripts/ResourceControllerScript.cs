@@ -136,7 +136,6 @@ public class ResourceControllerScript : MonoBehaviour
 
 }
 
-[System.Serializable]
 public class ResourceType
 {
     public string Name;

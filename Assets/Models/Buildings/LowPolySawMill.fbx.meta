@@ -1,0 +1,204 @@
+fileFormatVersion: 2
+guid: 609ed15d5379fb34d80e66327ae81a80
+timeCreated: 1506926324
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Base
+    100002: BeamCorners
+    100004: BeamRoof
+    100006: BeamRoof.angled
+    100008: BeamSideRoof
+    100010: //RootNode
+    100012: SawBlade
+    100014: SawBladeHolder
+    100016: SawHatch
+    100018: SawTable
+    100020: Shack
+    100022: ShackRoof
+    100024: ShackRoof.001
+    100026: ShackWindow
+    100028: SlideDoor
+    100030: SlideDoorFram.Top
+    100032: SlideDoorFrame.Bot
+    100034: SmallChimney
+    100036: TableLegs
+    100038: Top Window
+    100040: TopWindowFrame
+    100042: Wheels
+    100044: Window.Back
+    100046: WindowFrame.Back
+    100048: WindowFrame.Shack
+    400000: Base
+    400002: BeamCorners
+    400004: BeamRoof
+    400006: BeamRoof.angled
+    400008: BeamSideRoof
+    400010: //RootNode
+    400012: SawBlade
+    400014: SawBladeHolder
+    400016: SawHatch
+    400018: SawTable
+    400020: Shack
+    400022: ShackRoof
+    400024: ShackRoof.001
+    400026: ShackWindow
+    400028: SlideDoor
+    400030: SlideDoorFram.Top
+    400032: SlideDoorFrame.Bot
+    400034: SmallChimney
+    400036: TableLegs
+    400038: Top Window
+    400040: TopWindowFrame
+    400042: Wheels
+    400044: Window.Back
+    400046: WindowFrame.Back
+    400048: WindowFrame.Shack
+    2300000: Base
+    2300002: BeamCorners
+    2300004: BeamRoof
+    2300006: BeamRoof.angled
+    2300008: BeamSideRoof
+    2300010: SawBlade
+    2300012: SawBladeHolder
+    2300014: SawHatch
+    2300016: SawTable
+    2300018: Shack
+    2300020: ShackRoof
+    2300022: ShackRoof.001
+    2300024: ShackWindow
+    2300026: SlideDoor
+    2300028: SlideDoorFram.Top
+    2300030: SlideDoorFrame.Bot
+    2300032: SmallChimney
+    2300034: TableLegs
+    2300036: Top Window
+    2300038: TopWindowFrame
+    2300040: Wheels
+    2300042: Window.Back
+    2300044: WindowFrame.Back
+    2300046: WindowFrame.Shack
+    3300000: Base
+    3300002: BeamCorners
+    3300004: BeamRoof
+    3300006: BeamRoof.angled
+    3300008: BeamSideRoof
+    3300010: SawBlade
+    3300012: SawBladeHolder
+    3300014: SawHatch
+    3300016: SawTable
+    3300018: Shack
+    3300020: ShackRoof
+    3300022: ShackRoof.001
+    3300024: ShackWindow
+    3300026: SlideDoor
+    3300028: SlideDoorFram.Top
+    3300030: SlideDoorFrame.Bot
+    3300032: SmallChimney
+    3300034: TableLegs
+    3300036: Top Window
+    3300038: TopWindowFrame
+    3300040: Wheels
+    3300042: Window.Back
+    3300044: WindowFrame.Back
+    3300046: WindowFrame.Shack
+    4300000: SawBlade
+    4300002: SawHatch
+    4300004: BeamSideRoof
+    4300006: BeamRoof.angled
+    4300008: BeamCorners
+    4300010: Base
+    4300012: BeamRoof
+    4300014: SmallChimney
+    4300016: TopWindowFrame
+    4300018: WindowFrame.Shack
+    4300020: WindowFrame.Back
+    4300022: SawBladeHolder
+    4300024: Window.Back
+    4300026: ShackWindow
+    4300028: ShackRoof.001
+    4300030: Shack
+    4300032: ShackRoof
+    4300034: Top Window
+    4300036: SlideDoorFrame.Bot
+    4300038: SlideDoor
+    4300040: Wheels
+    4300042: SlideDoorFram.Top
+    4300044: SawTable
+    4300046: TableLegs
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

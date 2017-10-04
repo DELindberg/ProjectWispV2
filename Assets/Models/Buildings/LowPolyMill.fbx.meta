@@ -1,0 +1,214 @@
+fileFormatVersion: 2
+guid: 73d4950c83e42284cb69d298b21eece6
+timeCreated: 1506926325
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Balcony
+    100002: Base
+    100004: Beam.AngeledSmall
+    100006: Beam.back
+    100008: Beam.Back.L
+    100010: Beam.Back.L.001
+    100012: Beam.Back.R.001
+    100014: Beam.front
+    100016: Beam.Front.L
+    100018: Beam.Front.R
+    100020: Beam.Top
+    100022: Beam.Top.Front.L
+    100024: Beam.Top.Front.R
+    100026: Beam.Top.L
+    100028: Beam.Top.R
+    100030: Door.001
+    100032: Door.Balcony
+    100034: DoorFrame.Balcony
+    100036: Foundation
+    100038: //RootNode
+    100040: Roof.Filling
+    100042: Roof.l
+    100044: Roof.r
+    100046: WindowFrames
+    100048: WindowFrames.001
+    100050: Windows
+    100052: Wings
+    400000: Balcony
+    400002: Base
+    400004: Beam.AngeledSmall
+    400006: Beam.back
+    400008: Beam.Back.L
+    400010: Beam.Back.L.001
+    400012: Beam.Back.R.001
+    400014: Beam.front
+    400016: Beam.Front.L
+    400018: Beam.Front.R
+    400020: Beam.Top
+    400022: Beam.Top.Front.L
+    400024: Beam.Top.Front.R
+    400026: Beam.Top.L
+    400028: Beam.Top.R
+    400030: Door.001
+    400032: Door.Balcony
+    400034: DoorFrame.Balcony
+    400036: Foundation
+    400038: //RootNode
+    400040: Roof.Filling
+    400042: Roof.l
+    400044: Roof.r
+    400046: WindowFrames
+    400048: WindowFrames.001
+    400050: Windows
+    400052: Wings
+    2300000: Balcony
+    2300002: Base
+    2300004: Beam.AngeledSmall
+    2300006: Beam.back
+    2300008: Beam.Back.L
+    2300010: Beam.Back.L.001
+    2300012: Beam.Back.R.001
+    2300014: Beam.front
+    2300016: Beam.Front.L
+    2300018: Beam.Front.R
+    2300020: Beam.Top
+    2300022: Beam.Top.Front.L
+    2300024: Beam.Top.Front.R
+    2300026: Beam.Top.L
+    2300028: Beam.Top.R
+    2300030: Door.001
+    2300032: Door.Balcony
+    2300034: DoorFrame.Balcony
+    2300036: Foundation
+    2300038: Roof.Filling
+    2300040: Roof.l
+    2300042: Roof.r
+    2300044: WindowFrames
+    2300046: WindowFrames.001
+    2300048: Windows
+    2300050: Wings
+    3300000: Balcony
+    3300002: Base
+    3300004: Beam.AngeledSmall
+    3300006: Beam.back
+    3300008: Beam.Back.L
+    3300010: Beam.Back.L.001
+    3300012: Beam.Back.R.001
+    3300014: Beam.front
+    3300016: Beam.Front.L
+    3300018: Beam.Front.R
+    3300020: Beam.Top
+    3300022: Beam.Top.Front.L
+    3300024: Beam.Top.Front.R
+    3300026: Beam.Top.L
+    3300028: Beam.Top.R
+    3300030: Door.001
+    3300032: Door.Balcony
+    3300034: DoorFrame.Balcony
+    3300036: Foundation
+    3300038: Roof.Filling
+    3300040: Roof.l
+    3300042: Roof.r
+    3300044: WindowFrames
+    3300046: WindowFrames.001
+    3300048: Windows
+    3300050: Wings
+    4300000: Wings
+    4300002: Foundation
+    4300004: Base
+    4300006: Beam.Top
+    4300008: Beam.AngeledSmall
+    4300010: Beam.Back.L.001
+    4300012: Beam.Back.R.001
+    4300014: Roof.l
+    4300016: Roof.r
+    4300018: Beam.Top.Front.R
+    4300020: Beam.Top.Front.L
+    4300022: Beam.Top.L
+    4300024: Beam.Top.R
+    4300026: Beam.back
+    4300028: Beam.front
+    4300030: Roof.Filling
+    4300032: Balcony
+    4300034: Door.Balcony
+    4300036: DoorFrame.Balcony
+    4300038: Door.001
+    4300040: Windows
+    4300042: WindowFrames.001
+    4300044: WindowFrames
+    4300046: Beam.Front.L
+    4300048: Beam.Back.L
+    4300050: Beam.Front.R
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

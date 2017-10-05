@@ -37,34 +37,6 @@ public class ResourceControllerScript : MonoBehaviour
      */
 
     public ResourceType[] ResourceList;
-    //TODO: REWRITE THIS AS AN ARRAY, there's no reason to have this as a list
-    //public List<ResourceType> ResourceList = new List<ResourceType>();
-
-    //ResourceType Water = new ResourceType(),
-    //    Seeds = new ResourceType(),
-    //    Grain = new ResourceType(),
-    //    Runes = new ResourceType(),
-    //    Honey = new ResourceType(),
-    //    Flour = new ResourceType(),
-    //    Beer = new ResourceType(),
-    //    Chili = new ResourceType(),
-    //    Flowers = new ResourceType(),
-    //    Forest = new ResourceType(),
-    //    Wildlife = new ResourceType(),
-    //    Weed = new ResourceType(),
-    //    Mineral = new ResourceType(),
-    //    Wood = new ResourceType(),
-    //    Rocks = new ResourceType(),
-    //    Leather = new ResourceType(),
-    //    Glass = new ResourceType(),
-    //    Fuel = new ResourceType(),
-    //    Bread = new ResourceType(),
-    //    Meat = new ResourceType(),
-    //    Antibear = new ResourceType(),
-    //    Sleep = new ResourceType(),
-    //    Happiness = new ResourceType();
-        
-        
 
     // Use this for initialization
     void Start()
@@ -76,62 +48,39 @@ public class ResourceControllerScript : MonoBehaviour
          * objects which utilizes the resource in question (except for the Wisps, as they simply copy this list directly)! 
          */
 
-        ////Attach the appropriate tags
-        //Water.Name = "water";
-        //Seeds.Name = "seeds";
-        //Grain.Name = "grain";
-        //Runes.Name = "runes";
-        //Honey.Name = "honey";
-        //Flour.Name = "flour";
-        //Beer.Name = "beer";
-        //Chili.Name = "chili";
-        //Flowers.Name = "flowers";
-        //Forest.Name = "forest";
-        //Wildlife.Name = "wildlife";
-        //Weed.Name = "weed";
-        //Mineral.Name = "mineral";
-        //Wood.Name = "wood";
-        //Rocks.Name = "rocks";
-        //Leather.Name = "leather";
-        //Glass.Name = "glass";
-        //Fuel.Name = "fuel";
-        //Bread.Name = "bread";
-        //Meat.Name = "meat";
-        //Antibear.Name = "antibear";
-        //Sleep.Name = "sleep";
-        //Happiness.Name = "happiness";
-
-        ////Add the resources to the ResourceList
-        //ResourceList.Add(Water);
-        //ResourceList.Add(Seeds);
-        //ResourceList.Add(Grain);
-        //ResourceList.Add(Runes);
-        //ResourceList.Add(Honey);
-        //ResourceList.Add(Flour);
-        //ResourceList.Add(Beer);
-        //ResourceList.Add(Chili);
-        //ResourceList.Add(Flowers);
-        //ResourceList.Add(Forest);
-        //ResourceList.Add(Wildlife);
-        //ResourceList.Add(Weed);
-        //ResourceList.Add(Mineral);
-        //ResourceList.Add(Wood);
-        //ResourceList.Add(Rocks);
-        //ResourceList.Add(Leather);
-        //ResourceList.Add(Glass);
-        //ResourceList.Add(Fuel);
-        //ResourceList.Add(Bread);
-        //ResourceList.Add(Meat);
-        //ResourceList.Add(Antibear);
-        //ResourceList.Add(Sleep);
-        //ResourceList.Add(Happiness);
 
         ResourceList = new ResourceType[23];
 
-        for(int i = 0; i < ResourceList.Length; i++)
+        for (int i = 0; i < ResourceList.Length; i++)
         {
             ResourceList[i] = new ResourceType();
         }
+
+        ResourceList[0].Name = "water";
+        ResourceList[1].Name = "seeds";
+        ResourceList[2].Name = "grain";
+        ResourceList[3].Name = "runes";
+        ResourceList[4].Name = "honey";
+        ResourceList[5].Name = "flour";
+        ResourceList[6].Name = "beer";
+        ResourceList[7].Name = "chili";
+        ResourceList[8].Name = "flowers";
+        ResourceList[9].Name = "wildlife";
+        ResourceList[10].Name = "weed";
+        ResourceList[11].Name = "mineral";
+        ResourceList[12].Name = "wood";
+        ResourceList[13].Name = "rocks";
+        ResourceList[14].Name = "leather";
+        ResourceList[15].Name = "glass";
+        ResourceList[16].Name = "fuel";
+        ResourceList[17].Name = "bread";
+        ResourceList[18].Name = "meat";
+        ResourceList[19].Name = "antibear";
+        ResourceList[20].Name = "sleep";
+        ResourceList[21].Name = "happiness";
+        ResourceList[22].Name = "forest";
+
+
     }
 
 }
@@ -143,5 +92,5 @@ public class ResourceType
     public string Name;
     public int Amount = 0;
     //Type is used by Smart Zones to indicate whether the resource is input or output
-    public string Type = "undeclared";
+    public string Type = "undeclared"; //Is later set as Input or Output
 }

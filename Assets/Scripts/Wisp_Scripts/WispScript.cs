@@ -33,6 +33,9 @@ public class WispScript : MonoBehaviour
     //Variable used in conjunction with Smart Zone design to inject the proper animations
     public int AnimationID;
 
+    //Integers used to determine how many resources the Wisps are allowed to carry at once
+    public int CarryCapacity, CurrentlyCarrying, CurrentlyReserved;
+
     //Variables used to establish connection to the Resource Controller object
     public List<ResourceType> ResourcesCarried;
     GameObject ResourceController;
@@ -88,6 +91,9 @@ public class WispScript : MonoBehaviour
         IsBusy = false;
         IsFetching = false;
         IsPresent = false;
+
+        CarryCapacity = 3;
+        CurrentlyCarrying = 0;
 
         //FOR TESTING!!!
         AssignWorkplace();

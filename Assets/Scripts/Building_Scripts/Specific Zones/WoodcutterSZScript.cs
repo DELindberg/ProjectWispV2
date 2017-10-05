@@ -23,7 +23,7 @@ public class WoodcutterSZScript : SmartZoneParentScript
         LocalResources = new ResourceType[2];   //Adjust this number if resources are added or removed to the building's design
         PopulateResourceList(LocalResources);
         InitializeResources();
-        //FindResourceID(out InputResourceID, out OutputResourceID);
+        FindResourceID(out InputResourceID, out OutputResourceID);
 
         WispLimit = 2;
 

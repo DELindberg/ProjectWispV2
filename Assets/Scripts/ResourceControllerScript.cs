@@ -136,6 +136,8 @@ public class ResourceControllerScript : MonoBehaviour
 
 }
 
+//This class must be serializable because of the way we list it
+[System.Serializable]
 public class ResourceType
 {
     public string Name;

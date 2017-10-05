@@ -19,7 +19,7 @@ public class HuntingLodgeSZScript : SmartZoneParentScript
         PopulateResourceList(LocalResources);
         InitializeResources();
 
-        FindResourceID(out InputResourceID, out OutputResourceID, out OutputResourceID2);
+        //FindResourceID(out InputResourceID, out OutputResourceID, out OutputResourceID2);
         WispLimit = 2;
 
 

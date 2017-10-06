@@ -33,7 +33,7 @@ public class DayNightScript : MonoBehaviour
         //Apply the vector3 rotateVal onto the Rotate transform of the sun component
         sun.transform.Rotate(rotateVal * Time.deltaTime);
 
-        //if (false) ;
+        //TODO: Create the code responsible for changing the colour of the sunlight, at the appropriate angles
 
     }
 

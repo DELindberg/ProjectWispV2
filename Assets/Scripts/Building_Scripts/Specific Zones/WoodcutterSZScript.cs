@@ -12,12 +12,18 @@ public class WoodcutterSZScript : SmartZoneParentScript
     public GameObject Animator1;
     public GameObject Animator2;
 
+    string ResourceName1;
+    string ResourceName2;
+
     protected void Awake()
     {
         //Extend Awake from SmartZoneParentScript
         PreBuildInAwake();
 
+        //Define identifiers for Zone- and Resource-types
         ZoneType = "woodcutter";
+        ResourceName1 = "forest";
+        ResourceName2 = "wood";
         
         //Establish resources and find the references
         LocalResources = new ResourceType[2];   //Adjust this number if resources are added or removed to the building's design
@@ -29,17 +35,20 @@ public class WoodcutterSZScript : SmartZoneParentScript
 
         //Check if the building can produce its output resource(s)
         InvokeRepeating("Produce", 10f, 10f);
+
+        //FOR TESTING!!
+        Invoke("SendToFetch", 20f);
     }
 
     //Production-related functions
     void InitializeResources() //WATCH OUT FOR TYPOS IN HERE
     {
         //Input-type resources
-        LocalResources[0].Name = "forest";
+        LocalResources[0].Name = ResourceName1; //"forest"
         LocalResources[0].Type = "input";
 
         //Output-type resources
-        LocalResources[1].Name = "wood";
+        LocalResources[1].Name = ResourceName2; //"wood"
         LocalResources[1].Type = "output";
     } 
     void Produce()
@@ -62,15 +71,72 @@ public class WoodcutterSZScript : SmartZoneParentScript
         }
         else
         {
-            //TODO: Look through the list of Smart Zones for someplace that serves the input resource, call Wisp Fetch behavior on it
+            //Send out a Wisp to fetch more resources
+            SendToFetch();
         }
     }
 
+    //Function used to 
+    void SendToFetch()
+    {
+        //Used for referring to the Wisp we'll send out to fetch materials
+        WispScript WispScriptRef = null;
+
+        //TODO: Call a function here that returns a reference to the first available Wisp of the assigned Wisps, could be written in the Smart Zone parent script
+        if (ReturnAssignedAvailable(AssignedWisps) != null)//If there's any available Assigned Wisps
+        {
+            //Get the first available assigned Wisp from the building
+            WispScriptRef = ReturnAssignedAvailable(AssignedWisps);
+        }
+        else
+        {
+            Debug.Log("No Wisps could be added from the list of assigned Wisps");
+        }
+
+        //Initialized to prevent errors
+        Vector3 FinalCoordinate = this.transform.position;
+        float ShortestDistance = float.MaxValue;
+
+        //Used to refer to the most optimal Forest node we'll find
+        ForestNodeScript ForestNodeRef = null;
+
+        //TODO: Look through the list of Smart Zones for someplace that serves the input resource, call Wisp Fetch behavior on it
+        for (int i = 0; i < SmartZoneControllerRef.ListOfSmartZones.Count; i++)
+        {
+            //If the Smart Zone checked is a forest node
+            if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "forestnode")
+            {
+                //Connect to the forest node
+                ForestNodeScript ForestNodeTempRef = SmartZoneControllerRef.ListOfSmartZones[i].GetComponent<ForestNodeScript>();
+
+                //If there's one or more of the resource available and it's the closest observed node so far
+                if (ForestNodeTempRef.ReturnSpawned() >= 1 &&
+                    Vector3.Distance(this.transform.position, SmartZoneControllerRef.ListOfSmartZones[i].transform.position) < ShortestDistance)
+                {
+                    //Set the new final coordinate
+                    FinalCoordinate = SmartZoneControllerRef.ListOfSmartZones[i].transform.position;
+                    //Update shortest distance to the newly observed shortest distance
+                    ShortestDistance = Vector3.Distance(this.transform.position, SmartZoneControllerRef.ListOfSmartZones[i].transform.position);
+
+                    //Update the reference to the newly found best candidate
+                    ForestNodeRef = ForestNodeTempRef;
+                }
+            }
+        }
+        //Reserve resources at the forest node
+        ForestNodeRef.MakeReservation(WispScriptRef);
+        //TODO: Reenable the Navmesh Agent on the Wisp, order it to move to the found node and set it to busy and fetching
+        WispScriptRef.gameObject.GetComponent<NavMeshAgent>().enabled = true;
+        WispScriptRef.IsFetching = true;
+        WispScriptRef.IsBusy = true;
+        WispScriptRef.FetchID = ForestNodeRef.ZoneID;
+        WispScriptRef.GotoLocation(ForestNodeRef.transform.position);
+    }
 
     //Logic handling Wisps entering the Smart Zone
     private void OnTriggerEnter(Collider other)
     {
-        //TODO: REMEMBER to add the "wisp" tag to the Wisp prefab
+        //REMEMBER to add the "wisp" tag to the Wisp prefab
         if(other.tag == "wisp")
         {
             WispScript TempWispRef = other.GetComponent<WispScript>();
@@ -85,8 +151,6 @@ public class WoodcutterSZScript : SmartZoneParentScript
                 TempWispRef.RoleValue = "woodcutter";
                 TempWispRef.IsPresent = true;
 
-
-                //TODO: FIND SOME WAY TO INTEGRATE SMART ZONE DESIGN WITH NAVMESH BEHAVIOR
                 //Temporarily disable the NavMesh Agent
                 TempWispRef.gameObject.GetComponent<NavMeshAgent>().enabled = false;
 

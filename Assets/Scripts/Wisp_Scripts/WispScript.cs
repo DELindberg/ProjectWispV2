@@ -334,7 +334,7 @@ public class WispScript : MonoBehaviour
         //}
     }
 
-    void GotoLocation(Vector3 DestinationCoordinate)
+    public void GotoLocation(Vector3 DestinationCoordinate)
     {
         //Update navmesh agent to the destination coordinate.
         NMAgent.destination = DestinationCoordinate;
@@ -352,7 +352,7 @@ public class WispScript : MonoBehaviour
         {
             Debug.Log("For loop run");
             //Change the string when matching against other Smart Zone types
-            if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "woodcutter" /*&& SmartZoneControllerRef.ListOfSmartZones[i].AssignedWisps.Count < SmartZoneControllerRef.ListOfSmartZones[i].WispLimit*/)
+            if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "woodcutter" && SmartZoneControllerRef.ListOfSmartZones[i].AssignedWisps.Count < SmartZoneControllerRef.ListOfSmartZones[i].WispLimit)
             {
                 Debug.Log("Workplace assigned");
                 AssignedBuildingID = SmartZoneControllerRef.ListOfSmartZones[i].ZoneID;

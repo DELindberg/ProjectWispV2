@@ -86,6 +86,24 @@ public class SmartZoneParentScript : MonoBehaviour {
         return ToReturn;
     }
 
+    //Cycle through the list of assigned Wisps, return reference to the first one available
+    protected WispScript ReturnAssignedAvailable(List<WispScript> AssignedWisps)
+    {
+        //Initialized to null to prevent errors
+        WispScript ToReturn = null;
+
+        for(int i = 0; i < AssignedWisps.Count; i++)
+        {
+            if(AssignedWisps[i].IsPresent && !AssignedWisps[i].IsBusy)
+            {
+                ToReturn = AssignedWisps[i];
+                break;
+            }
+        }
+        return ToReturn;
+    }
+
+    //Return the total number of Wisps currently present in the Smart Zone
     protected int PresentWispAmount()
     {
         int ToReturn = 0;

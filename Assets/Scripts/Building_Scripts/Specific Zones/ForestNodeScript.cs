@@ -9,12 +9,13 @@ public class ForestNodeScript : ResourceNodeParentScript {
     /// still keep an indication of how many resources are available, as well as allowing us for making
     /// reservations on the individual resources inside of the node.
     /// </summary>
-    RNodeSpawnpoint[] ListOfSpawnpoints;
-    public int ResourceLimit;
+
 
     // Use this for initialization
     void Start()
     {
+        ZoneType = "forestnode";
+
         //I know this is weird, but I'm keeping with a standard,
         //we'll just have to live with an array that only has ONE element, lol
         LocalResources = new ResourceType[1];
@@ -36,21 +37,7 @@ public class ForestNodeScript : ResourceNodeParentScript {
     }
 
 
-    //Goes through the list of Spawnpoints and returns how many has a Resource on them
-    int ReturnSpawned()
-    {
-        int ToReturn = 0;
 
-        foreach(RNodeSpawnpoint Spawnpoint in ListOfSpawnpoints)
-        {
-            if(Spawnpoint.HasSpawned)
-            {
-                ToReturn++;
-            }
-        }
-
-        return ToReturn;
-    }
 
     //Initialize the elements of the Spawnpoint array
     void PopulateListOfSpawnpoints()
@@ -160,27 +147,30 @@ public class ForestNodeScript : ResourceNodeParentScript {
         }
     }
 
-
-    void MakeReservation(WispScript WispScriptRef)
+    //Takes the Wisp reference, reserves the number of
+    public void MakeReservation(WispScript WispScriptRef)
     {
-        //TODO: Create the code responsible for reserving a handful of available resource nodes to a Wisp, using the Reservation class
         Reservation NewReservation = new Reservation();
-
+        
+        //Write the Wisp into the reservation
         NewReservation.WispScriptRef = WispScriptRef;
 
+        //Iterate through the Spawnpoints of the resource node
         for(int i = 0; i < ListOfSpawnpoints.Length; i++)
         {
-            //If there's at least one resource available
             if(ReturnSpawned() >= 1 &&              //If there's one or more trees left
                 ListOfSpawnpoints[i].HasSpawned &&  //If the currently checked node has a tree on it
-                !ListOfSpawnpoints[i].IsReserved && //If the currently checked node isn't reserved
+                !ListOfSpawnpoints[i].IsReserved && //If the currently checked node isn't already reserved
                 WispScriptRef.CurrentlyReserved < WispScriptRef.CarryCapacity)  //If the Wisp can still carry more resources
             {
-                //TODO: Reserve the resource, add one to the currently reserved number in the Wisp
-
+                //Reserve the resource, add one to the currently reserved number in the Wisp
+                ListOfSpawnpoints[i].IsReserved = true;
+                WispScriptRef.CurrentlyReserved++;
+                //Add the spawnpoint to the Reservation object
+                NewReservation.MakeReservation(ListOfSpawnpoints[i]);
             }
         }
-
+        //File the Reservation object to the Resource Node's list of reservations
         ReservationList.Add(NewReservation);
     }
 

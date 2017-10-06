@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceNodeParentScript : SmartZoneParentScript {
-
+    
     //Holds a reference to all of our reservation-objects
     protected List<Reservation> ReservationList = new List<Reservation>();
+
+    protected RNodeSpawnpoint[] ListOfSpawnpoints;
+    protected int ResourceLimit;
 
     //Class representing the Spawnpoints and the trees
     public class RNodeSpawnpoint
@@ -16,11 +19,9 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
         public GameObject SpawnpointObject; //A reference to the spawnpoint object itself
         public GameObject ResourceModel;    //A reference to the resource prefab we're instantiating
 
-
+        //Functions for loading and destroying meshes on the Resource Node Spawnpoint
         public void LoadMesh(string ResourceDirectory, float MinimumScale)
         {
-            //TODO: Make LoadMesh take a string parameter for the directory and a float for the minimum scale
-            //This change would make it viable to put inside the RNodeSpawnpointParentScript as we can simply pass directory and scale parameters down to it
             //Instantiate prefab from Resources-folder
             var temp = Instantiate(Resources.Load(ResourceDirectory) as GameObject);
             ResourceModel = temp;  //Store reference
@@ -52,8 +53,6 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
 
             return ToReturn;
         }
-
-
     }
     
     //Included here again because of access problems
@@ -66,11 +65,33 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
         return (r.NextDouble() * max);
     }
 
+    //Goes through the list of Spawnpoints and returns how many has a Resource on them
+    public int ReturnSpawned()
+    {
+        int ToReturn = 0;
+
+        foreach (RNodeSpawnpoint Spawnpoint in ListOfSpawnpoints)
+        {
+            if (Spawnpoint.HasSpawned)
+            {
+                ToReturn++;
+            }
+        }
+
+        return ToReturn;
+    }
+
     public class Reservation
     {
         //The Wisp who made the reservation
         public WispScript WispScriptRef;
         //A list of the resource node spawnpoints whose resources were reserved to this wisp
         public List<RNodeSpawnpoint> RNodeListSpawnpointList = new List<RNodeSpawnpoint>();
+
+        //Add the passed Spawnpoint to the Reservation's list of spawnpoints
+        public void MakeReservation(RNodeSpawnpoint SpawnpointToReserve)
+        {
+            RNodeListSpawnpointList.Add(SpawnpointToReserve);
+        }
     }
 }

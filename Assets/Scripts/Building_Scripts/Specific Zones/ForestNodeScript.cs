@@ -30,14 +30,49 @@ public class ForestNodeScript : ResourceNodeParentScript {
         InvokeRepeating("UpdateNode", 0.1f, 1f);
     }
 
+    private void Update()
+    {
+        foreach (Reservation Element in ReservationList)
+        {
+            Debug.Log("Distance is: " + Vector3.Distance(Element.RNodeListSpawnpointList[Element.RNodeListSpawnpointList.Count - 1].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position));
+            //If the distance between the last reserved spawnpoint and the Wisp is small enough, and the Reservation is executing
+            if (Vector3.Distance(Element.RNodeListSpawnpointList[Element.RNodeListSpawnpointList.Count - 1].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.2
+                && Element.ReservationExecuting)
+            {
+                Element.ReservationExecuting = false;
+                //Destroy mesh after specified delay
+                Element.RNodeListSpawnpointList[Element.RNodeListSpawnpointList.Count - 1].DelayedDestroyMesh(2);
+                //Remove the last spawnpoint from the list after a delay
+                Element.DelayedRemoveLastReservation(2);
+                //Order the Wisp to move on to the next spawnpoint after specified delay, then reindicate that the Reservation is Executing once again
+                DelayedFetchNext(Element.WispScriptRef, 2, Element);
+
+            }
+        }
+    }
+
     void InitializeResources()
     {
         LocalResources[0].Name = "forest";
         LocalResources[0].Type = "output";
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "wisp")
+        {
+            WispScript TempWispRef = other.GetComponent<WispScript>();
+            //TODO: Check if there's any references to the Wisp in the local list of reservations - if so, send it around to pick up the reserved trees
+            for(int i = 0; i < ReservationList.Count; i++)
+            {
+                if(TempWispRef.WispName == ReservationList[i].WispScriptRef.WispName &&
+                    TempWispRef.IsFetching)
+                {
 
-
+                }
+            }
+        }
+    }
 
     //Initialize the elements of the Spawnpoint array
     void PopulateListOfSpawnpoints()
@@ -140,7 +175,7 @@ public class ForestNodeScript : ResourceNodeParentScript {
                     Spawnpoint.HasSpawned = true;
                     LocalResources[0].Amount++;
 
-                    Debug.Log("Tree spawned,  total resources at: " + LocalResources[0].Amount);
+                    //Debug.Log("Tree spawned,  total resources at: " + LocalResources[0].Amount);
                     break;
                 }
             }
@@ -151,27 +186,35 @@ public class ForestNodeScript : ResourceNodeParentScript {
     public void MakeReservation(WispScript WispScriptRef)
     {
         Reservation NewReservation = new Reservation();
-        
+
         //Write the Wisp into the reservation
         NewReservation.WispScriptRef = WispScriptRef;
 
-        //Iterate through the Spawnpoints of the resource node
-        for(int i = 0; i < ListOfSpawnpoints.Length; i++)
+        //If there's any Wisps available
+        if (WispScriptRef != null)
         {
-            if(ReturnSpawned() >= 1 &&              //If there's one or more trees left
-                ListOfSpawnpoints[i].HasSpawned &&  //If the currently checked node has a tree on it
-                !ListOfSpawnpoints[i].IsReserved && //If the currently checked node isn't already reserved
-                WispScriptRef.CurrentlyReserved < WispScriptRef.CarryCapacity)  //If the Wisp can still carry more resources
+            //Iterate through the Spawnpoints of the resource node
+            for (int i = 0; i < ListOfSpawnpoints.Length; i++)
             {
-                //Reserve the resource, add one to the currently reserved number in the Wisp
-                ListOfSpawnpoints[i].IsReserved = true;
-                WispScriptRef.CurrentlyReserved++;
-                //Add the spawnpoint to the Reservation object
-                NewReservation.MakeReservation(ListOfSpawnpoints[i]);
+                if (ReturnSpawned() >= 1 &&              //If there's one or more trees left
+                    ListOfSpawnpoints[i].HasSpawned &&  //If the currently checked node has a tree on it
+                    !ListOfSpawnpoints[i].IsReserved && //If the currently checked node isn't already reserved
+                    WispScriptRef.CurrentlyReserved < WispScriptRef.CarryCapacity)  //If the Wisp can still carry more resources
+                {
+                    //Reserve the resource, add one to the currently reserved number in the Wisp
+                    ListOfSpawnpoints[i].IsReserved = true;
+                    WispScriptRef.CurrentlyReserved++;
+                    //Add the spawnpoint to the Reservation object
+                    NewReservation.MakeReservation(ListOfSpawnpoints[i]);
+                }
             }
+            //File the Reservation object to the Resource Node's list of reservations
+            ReservationList.Add(NewReservation);
         }
-        //File the Reservation object to the Resource Node's list of reservations
-        ReservationList.Add(NewReservation);
+        else
+        {
+            Debug.Log("No reservation was made due to no Wisps being available");
+        }
     }
 
     //Periodically called to update the Resource node

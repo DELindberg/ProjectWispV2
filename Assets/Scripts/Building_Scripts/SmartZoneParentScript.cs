@@ -166,4 +166,9 @@ public class SmartZoneParentScript : MonoBehaviour {
             LocalResources[i] = new ResourceType();
         }
     }
+
+    protected void FetchNext(string ResourceName, WispScript WispScriptRef)
+    {
+
+    }
 }

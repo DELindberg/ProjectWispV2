@@ -12,6 +12,9 @@ public class WoodcutterSZScript : SmartZoneParentScript
     public GameObject Animator1;
     public GameObject Animator2;
 
+    Animation Animat1;
+    Animation Animat2;
+
     string ResourceName1;
     string ResourceName2;
 
@@ -103,6 +106,8 @@ public class WoodcutterSZScript : SmartZoneParentScript
         //TODO: Look through the list of Smart Zones for someplace that serves the input resource, call Wisp Fetch behavior on it
         for (int i = 0; i < SmartZoneControllerRef.ListOfSmartZones.Count; i++)
         {
+            Debug.Log("Iterating through: " + SmartZoneControllerRef.ListOfSmartZones[i].ZoneType);
+
             //If the Smart Zone checked is a forest node
             if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "forestnode")
             {
@@ -123,14 +128,34 @@ public class WoodcutterSZScript : SmartZoneParentScript
                 }
             }
         }
-        //Reserve resources at the forest node
-        ForestNodeRef.MakeReservation(WispScriptRef);
-        //TODO: Reenable the Navmesh Agent on the Wisp, order it to move to the found node and set it to busy and fetching
-        WispScriptRef.gameObject.GetComponent<NavMeshAgent>().enabled = true;
-        WispScriptRef.IsFetching = true;
-        WispScriptRef.IsBusy = true;
-        WispScriptRef.FetchID = ForestNodeRef.ZoneID;
-        WispScriptRef.GotoLocation(ForestNodeRef.transform.position);
+
+        //Only proceed if there's actually a Wisp available to recieve these commands
+        if (WispScriptRef != null)
+        {
+            switch(WispScriptRef.gameObject.name)
+            {
+                case "Wisp":
+                    Animat1.Stop();
+                    break;
+                case "Wisp (1)":
+                    Animat2.Stop();
+                    break;
+            }
+            //Reserve resources at the forest node
+            ForestNodeRef.MakeReservation(WispScriptRef);
+
+            //WARNING!!: This is super unstable! But it refers to the last element in the array (aka the newly added one)
+            ForestNodeRef.ReservationList[ForestNodeRef.ReservationList.Count - 1].ReservationExecuting = true;
+
+            //Reenable the Navmesh Agent on the Wisp, order it to move to the found node and set it to busy and fetching
+            WispScriptRef.gameObject.GetComponent<NavMeshAgent>().enabled = true;
+            WispScriptRef.IsFetching = true;
+            WispScriptRef.IsBusy = true;
+            WispScriptRef.FetchID = ForestNodeRef.ZoneID;
+            WispScriptRef.GotoLocation(ForestNodeRef.transform.position);
+
+            Debug.Log("Wisp has been sent to fetch");
+        }
     }
 
     //Logic handling Wisps entering the Smart Zone
@@ -142,7 +167,7 @@ public class WoodcutterSZScript : SmartZoneParentScript
             WispScript TempWispRef = other.GetComponent<WispScript>();
 
             //If Wisp is not busy, was sent to work here and has its default role "builder"
-            if(TempWispRef.IsBusy == false && 
+            if(TempWispRef.IsBusy == false && //TODO: When adding the manual role-assignment, this should be changed to true to prevent "distracting" query before role is taken 
                 TempWispRef.AssignedBuildingID == ZoneID && 
                 TempWispRef.RoleValue == "builder")
             {
@@ -160,21 +185,23 @@ public class WoodcutterSZScript : SmartZoneParentScript
                     //If nothing is animating
                     case 0:
                         //THE ANIMATION COMPONENT IS INITIALIZED HERE, because if it's initialized in a different block of code,
-                        //Unity bugs out and delays the parenting process which causes the animation to keel over with a weird intestinal hernia
-                        Animation Animat1 = Animator1.GetComponent<Animation>();
+                        //Unity bugs out and delays the parenting process which causes the animation to fail in finding the object to animate
+                        Animat1 = Animator1.GetComponent<Animation>();
                         SetParent(Animator1, TempWispRef); //Set this building as the new parent
                         TempWispRef.gameObject.name = "Wisp";   //Change the object name so the animator can use it
 
                         Animat1.Play();
                         AnimateCount++;
+                        Debug.Log("Animating 1");
                         break;
                     
                     //If one Wisp is already animating
                     case 1:
-                        Animation Animat2 = Animator2.GetComponent<Animation>();
+                        Animat2 = Animator2.GetComponent<Animation>();
                         SetParent(Animator2, TempWispRef);
                         TempWispRef.gameObject.name = "Wisp (1)";
                         Animat2.Play();
+                        Debug.Log("Animating 2");
                         break;
                 }
             }

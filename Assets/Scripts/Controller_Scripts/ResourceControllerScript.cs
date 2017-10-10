@@ -39,7 +39,7 @@ public class ResourceControllerScript : MonoBehaviour
     public ResourceType[] ResourceList;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         /*
          * Because of the way the other objects in the game handle their individual initialization of their resource lists,
@@ -47,7 +47,6 @@ public class ResourceControllerScript : MonoBehaviour
          * should not be changed - if they have to be changed, make sure the change is also reflected in the code of the
          * objects which utilizes the resource in question (except for the Wisps, as they simply copy this list directly)! 
          */
-
 
         ResourceList = new ResourceType[23];
 
@@ -79,7 +78,6 @@ public class ResourceControllerScript : MonoBehaviour
         ResourceList[20].Name = "sleep";
         ResourceList[21].Name = "happiness";
         ResourceList[22].Name = "forest";
-
 
     }
 

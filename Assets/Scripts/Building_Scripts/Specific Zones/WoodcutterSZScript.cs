@@ -106,7 +106,7 @@ public class WoodcutterSZScript : SmartZoneParentScript
         //TODO: Look through the list of Smart Zones for someplace that serves the input resource, call Wisp Fetch behavior on it
         for (int i = 0; i < SmartZoneControllerRef.ListOfSmartZones.Count; i++)
         {
-            Debug.Log("Iterating through: " + SmartZoneControllerRef.ListOfSmartZones[i].ZoneType);
+            //Debug.Log("Iterating through: " + SmartZoneControllerRef.ListOfSmartZones[i].ZoneType);
 
             //If the Smart Zone checked is a forest node
             if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "forestnode")
@@ -145,7 +145,7 @@ public class WoodcutterSZScript : SmartZoneParentScript
             ForestNodeRef.MakeReservation(WispScriptRef);
 
             //WARNING!!: This is super unstable! But it refers to the last element in the array (aka the newly added one)
-            ForestNodeRef.ReservationList[ForestNodeRef.ReservationList.Count - 1].ReservationExecuting = true;
+            ForestNodeRef.ReservationList[0].ReservationExecuting = true;
 
             //Reenable the Navmesh Agent on the Wisp, order it to move to the found node and set it to busy and fetching
             WispScriptRef.gameObject.GetComponent<NavMeshAgent>().enabled = true;
@@ -208,7 +208,7 @@ public class WoodcutterSZScript : SmartZoneParentScript
             //If the Wisp works here, is fetching and carries the input resource
             else if(TempWispRef.AssignedBuildingID == ZoneID && TempWispRef.RoleValue == "woodcutter" && TempWispRef.IsFetching)
             {
-                for(int i = 0; i < TempWispRef.ResourcesCarried.Count; i++)
+                for(int i = 0; i < TempWispRef.ResourcesCarried.Length; i++)
                 {
                     //It the name matches the input resource - ATTENTION!: MORE THAN ONE OF THESE ARE NEEDED IF IT CAN FETCH MORE THAN ONE RESOURCE TYPE
                     if(TempWispRef.ResourcesCarried[i].Name == LocalResources[0].Name && TempWispRef.ResourcesCarried[i].Amount > 0)

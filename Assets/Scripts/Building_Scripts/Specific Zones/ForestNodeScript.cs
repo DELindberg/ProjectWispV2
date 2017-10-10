@@ -27,26 +27,44 @@ public class ForestNodeScript : ResourceNodeParentScript {
 
         //InvokeRepeating("SpamTreesEverywhere", 0.01f, 1f);
 
-        InvokeRepeating("UpdateNode", 0.1f, 1f);
+        InvokeRepeating("UpdateNode", 0.1f, 2f);
     }
 
-    private void Update()
+    protected void Update()
     {
         foreach (Reservation Element in ReservationList)
         {
-            Debug.Log("Distance is: " + Vector3.Distance(Element.RNodeListSpawnpointList[Element.RNodeListSpawnpointList.Count - 1].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position));
+            //Debug.Log("Distance is: " + Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position));
+
             //If the distance between the last reserved spawnpoint and the Wisp is small enough, and the Reservation is executing
-            if (Vector3.Distance(Element.RNodeListSpawnpointList[Element.RNodeListSpawnpointList.Count - 1].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.2
+            if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6
                 && Element.ReservationExecuting)
             {
-                Element.ReservationExecuting = false;
                 //Destroy mesh after specified delay
-                Element.RNodeListSpawnpointList[Element.RNodeListSpawnpointList.Count - 1].DelayedDestroyMesh(2);
+                Element.RNodeListSpawnpointList[0].DestroyMesh();
                 //Remove the last spawnpoint from the list after a delay
-                Element.DelayedRemoveLastReservation(2);
-                //Order the Wisp to move on to the next spawnpoint after specified delay, then reindicate that the Reservation is Executing once again
-                DelayedFetchNext(Element.WispScriptRef, 2, Element);
+                Element.RemoveFirstReservation();
+                Element.WispScriptRef.AddResource("forest", 1);
+                //Order the Wisp to move on to the next spawnpoint
+                FetchNext(Element.WispScriptRef);
 
+                //If we're reaching the last reservation in the list
+                if (Element.RNodeListSpawnpointList.Count <= 1)
+                {
+                    Element.ReservationExecuting = false;
+                }
+
+            }
+            else if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6)
+            {
+                //Destroy mesh after specified delay
+                Element.RNodeListSpawnpointList[0].DestroyMesh();
+                //Remove the last spawnpoint from the list after a delay
+                Element.RemoveFirstReservation();
+                Element.WispScriptRef.GoWork();
+                ReservationList.RemoveAt(GetReservationIndex(Element.WispScriptRef));
+                Debug.Log("ReservationList count at: " + ReservationList.Count);
+                break;
             }
         }
     }
@@ -68,7 +86,7 @@ public class ForestNodeScript : ResourceNodeParentScript {
                 if(TempWispRef.WispName == ReservationList[i].WispScriptRef.WispName &&
                     TempWispRef.IsFetching)
                 {
-
+                    BeginFetching(TempWispRef);
                 }
             }
         }
@@ -86,6 +104,8 @@ public class ForestNodeScript : ResourceNodeParentScript {
     {
         //Initialize each element in the list
         PopulateListOfSpawnpoints();
+
+        //TODO: Optimize this listing by cycling through an incremental variable
 
         //Iterate through all of the child-objects
         foreach (Transform t in transform)
@@ -137,7 +157,7 @@ public class ForestNodeScript : ResourceNodeParentScript {
                 case "Spawnpoint (14)":
                     ListOfSpawnpoints[14].SpawnpointObject = t.gameObject;
                     break;
-            }               
+            }
         }
     }
 
@@ -228,5 +248,4 @@ public class ForestNodeScript : ResourceNodeParentScript {
             GenerateResource();
         }
     }
-
 }

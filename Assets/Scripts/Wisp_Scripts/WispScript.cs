@@ -37,9 +37,9 @@ public class WispScript : MonoBehaviour
     public int CarryCapacity, CurrentlyCarrying, CurrentlyReserved;
 
     //Variables used to establish connection to the Resource Controller object
-    public List<ResourceType> ResourcesCarried;
+    public ResourceType[] ResourcesCarried;
     GameObject ResourceController;
-    ResourceControllerScript ResourceControllerRef;
+    public ResourceControllerScript ResourceControllerRef;
 
     //Used to communicate with the Smart Zone Controller:
     GameObject SmartZoneController;
@@ -76,7 +76,8 @@ public class WispScript : MonoBehaviour
         //Copy list of resources possible to carry, from the resource controller
         ResourceController = GameObject.Find("ResourceController");
         ResourceControllerRef = ResourceController.GetComponent<ResourceControllerScript>();
-        ResourcesCarried = new List<ResourceType>(ResourceControllerRef.ResourceList);
+        ResourcesCarried = new ResourceType[ResourceControllerRef.ResourceList.Length];
+        ResourcesCarried = (ResourceType[])ResourceControllerRef.ResourceList.Clone();  //Copy list from resource controller to Wisp
 
         //Connect to the Smart Zone Controller:
         SmartZoneController = GameObject.Find("SmartZoneController"); //:REMEMBER TO ENSURE THAT THIS NAME IS CORRECT IN THE EDITOR
@@ -321,7 +322,7 @@ public class WispScript : MonoBehaviour
         //TODO: Query list of Smart Zones for nearest place to get happy
     }
 
-    void GoWork()
+    public void GoWork()
     {
         //TODO: If a workplace has been assigned, go there. If already there, do nothing. If no workplace has been assigned (the Wisp is a builder) look for Smart Zones which require building
         //if(WorkLocation != Vector3.positiveInfinity)
@@ -340,9 +341,16 @@ public class WispScript : MonoBehaviour
         NMAgent.destination = DestinationCoordinate;
     }
 
-    void GoHome()
+    public void AddResource(string ResourceID, int Amount)
     {
-        //TODO: Send the Wisp home to its assigned workplace
+        for(int i = 0; i < ResourcesCarried.Length; i++)
+        {
+            if(ResourcesCarried[i].Name == ResourceID)
+            {
+                ResourcesCarried[i].Amount += Amount;
+                break;
+            }
+        }
     }
 
     //FOR TESTING!! Automatic assignment of Wisps to a workplace

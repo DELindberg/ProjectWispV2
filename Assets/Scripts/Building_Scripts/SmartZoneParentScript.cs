@@ -167,8 +167,13 @@ public class SmartZoneParentScript : MonoBehaviour {
         }
     }
 
-    protected void FetchNext(string ResourceName, WispScript WispScriptRef)
+    //Included here again because of access problems
+    public static double RandomDouble(double max)
     {
+        //Seed randomizer from time
+        int seed = (int)System.DateTime.Now.Ticks;
+        System.Random r = new System.Random(seed);
 
+        return (r.NextDouble() * max);
     }
 }

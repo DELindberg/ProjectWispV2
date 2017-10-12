@@ -44,7 +44,11 @@ public class ForestNodeScript : ResourceNodeParentScript {
                 Element.RNodeListSpawnpointList[0].DestroyMesh();
                 //Remove the last spawnpoint from the list after a delay
                 Element.RemoveFirstReservation();
+
+                //Add to inventory
                 Element.WispScriptRef.AddResource("forest", 1);
+                Element.WispScriptRef.CurrentlyCarrying++;
+
                 //Order the Wisp to move on to the next spawnpoint
                 FetchNext(Element.WispScriptRef);
 
@@ -57,6 +61,10 @@ public class ForestNodeScript : ResourceNodeParentScript {
             }
             else if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6)
             {
+                //Add to inventory
+                Element.WispScriptRef.AddResource("forest", 1);
+                Element.WispScriptRef.CurrentlyCarrying++;
+
                 //Destroy mesh after specified delay
                 Element.RNodeListSpawnpointList[0].DestroyMesh();
                 //Remove the last spawnpoint from the list after a delay

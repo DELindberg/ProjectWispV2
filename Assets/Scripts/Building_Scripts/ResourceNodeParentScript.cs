@@ -157,7 +157,7 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
     }
 
     public class Reservation
-    { 
+    {
         //The Wisp who made the reservation
         public WispScript WispScriptRef;
         //A list of the resource node spawnpoints whose resources were reserved to this wisp
@@ -177,16 +177,5 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
         {
             RNodeListSpawnpointList.RemoveAt(0);
         }
-        ////Call RemoveLastReservation at a delay
-        //public IEnumerator DelayedRemoveLastReservation(int DelayTime)
-        //{
-        //    yield return new WaitForSeconds(DelayTime);
-        //    RemoveLastReservation();
-        //}
-        ////Allow external scripts to call the IEnumerator above
-        //public void CallDelayedRemoveLastReservation(int DelayTime)
-        //{
-        //    StartCoroutine(DelayedRemoveLastReservation(DelayTime));
-        //}
     }
 }

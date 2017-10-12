@@ -76,8 +76,15 @@ public class WispScript : MonoBehaviour
         //Copy list of resources possible to carry, from the resource controller
         ResourceController = GameObject.Find("ResourceController");
         ResourceControllerRef = ResourceController.GetComponent<ResourceControllerScript>();
+        
+        //Copy list from resource controller to Wisp
         ResourcesCarried = new ResourceType[ResourceControllerRef.ResourceList.Length];
-        ResourcesCarried = (ResourceType[])ResourceControllerRef.ResourceList.Clone();  //Copy list from resource controller to Wisp
+        for(int i = 0; i < ResourcesCarried.Length; i++)
+        {
+            ResourcesCarried[i] = new ResourceType();
+            ResourcesCarried[i].Name = ResourceControllerRef.ResourceList[i].Name;
+        }
+
 
         //Connect to the Smart Zone Controller:
         SmartZoneController = GameObject.Find("SmartZoneController"); //:REMEMBER TO ENSURE THAT THIS NAME IS CORRECT IN THE EDITOR

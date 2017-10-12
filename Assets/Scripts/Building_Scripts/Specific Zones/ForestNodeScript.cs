@@ -32,47 +32,50 @@ public class ForestNodeScript : ResourceNodeParentScript {
 
     protected void Update()
     {
-        foreach (Reservation Element in ReservationList)
+        if (ReservationList.Count > 0)
         {
-            //Debug.Log("Distance is: " + Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position));
-
-            //If the distance between the last reserved spawnpoint and the Wisp is small enough, and the Reservation is executing
-            if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6
-                && Element.ReservationExecuting)
+            foreach (Reservation Element in ReservationList)
             {
-                //Destroy mesh after specified delay
-                Element.RNodeListSpawnpointList[0].DestroyMesh();
-                //Remove the last spawnpoint from the list after a delay
-                Element.RemoveFirstReservation();
+                //Debug.Log("Distance is: " + Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position));
 
-                //Add to inventory
-                Element.WispScriptRef.AddResource("forest", 1);
-                Element.WispScriptRef.CurrentlyCarrying++;
-
-                //Order the Wisp to move on to the next spawnpoint
-                FetchNext(Element.WispScriptRef);
-
-                //If we're reaching the last reservation in the list
-                if (Element.RNodeListSpawnpointList.Count <= 1)
+                //If the distance between the last reserved spawnpoint and the Wisp is small enough, and the Reservation is executing
+                if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6
+                    && Element.ReservationExecuting)
                 {
-                    Element.ReservationExecuting = false;
+                    //Destroy mesh after specified delay
+                    Element.RNodeListSpawnpointList[0].DestroyMesh();
+                    //Remove the last spawnpoint from the list after a delay
+                    Element.RemoveFirstReservation();
+
+                    //Add to inventory
+                    Element.WispScriptRef.AddResource("forest", 1);
+                    Element.WispScriptRef.CurrentlyCarrying++;
+
+                    //Order the Wisp to move on to the next spawnpoint
+                    FetchNext(Element.WispScriptRef);
+
+                    //If we're reaching the last reservation in the list
+                    if (Element.RNodeListSpawnpointList.Count <= 1)
+                    {
+                        Element.ReservationExecuting = false;
+                    }
+
                 }
+                else if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6)
+                {
+                    //Add to inventory
+                    Element.WispScriptRef.AddResource("forest", 1);
+                    Element.WispScriptRef.CurrentlyCarrying++;
 
-            }
-            else if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6)
-            {
-                //Add to inventory
-                Element.WispScriptRef.AddResource("forest", 1);
-                Element.WispScriptRef.CurrentlyCarrying++;
-
-                //Destroy mesh after specified delay
-                Element.RNodeListSpawnpointList[0].DestroyMesh();
-                //Remove the last spawnpoint from the list after a delay
-                Element.RemoveFirstReservation();
-                Element.WispScriptRef.GoWork();
-                ReservationList.RemoveAt(GetReservationIndex(Element.WispScriptRef));
-                Debug.Log("ReservationList count at: " + ReservationList.Count);
-                break;
+                    //Destroy mesh after specified delay
+                    Element.RNodeListSpawnpointList[0].DestroyMesh();
+                    //Remove the last spawnpoint from the list after a delay
+                    Element.RemoveFirstReservation();
+                    Element.WispScriptRef.GoWork();
+                    ReservationList.RemoveAt(GetReservationIndex(Element.WispScriptRef));
+                    Debug.Log("ReservationList count at: " + ReservationList.Count);
+                    break;
+                }
             }
         }
     }
@@ -201,6 +204,7 @@ public class ForestNodeScript : ResourceNodeParentScript {
                 {
                     Spawnpoint.LoadMesh("LowPolyTree2", 0.5f);
                     Spawnpoint.HasSpawned = true;
+                    Spawnpoint.IsReserved = false;
                     LocalResources[0].Amount++;
 
                     //Debug.Log("Tree spawned,  total resources at: " + LocalResources[0].Amount);

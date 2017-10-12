@@ -177,6 +177,8 @@ public class WoodcutterSZScript : SmartZoneParentScript
                 AssignWisp(TempWispRef);
                 TempWispRef.RoleValue = "woodcutter";
                 TempWispRef.IsPresent = true;
+                AssignName(TempWispRef);
+                ParentAndAnimate(TempWispRef);
             }
 
             //If the Wisp works here, is fetching and carries the input resource
@@ -250,7 +252,7 @@ public class WoodcutterSZScript : SmartZoneParentScript
 
                     if (WispScriptRef.IsFetching && WispScriptRef.CurrentlyCarrying > 0)
                     {
-                        //TODO: Load the offloading animation
+                        //Load the offloading animation
                         StartCoroutine(OffloadAnimation(2, WispScriptRef));
                     }
                     else

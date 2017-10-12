@@ -1091,7 +1091,7 @@ Animation:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1780651939}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: dbc39eaf7f118774aab2ba657c714567, type: 2}
   m_Animations:
@@ -1194,6 +1194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1846923056}
   - component: {fileID: 1846923057}
+  - component: {fileID: 1846923058}
   m_Layer: 0
   m_Name: Anim1
   m_TagString: Untagged
@@ -1220,7 +1221,7 @@ Animation:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1846923055}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: a7f65fac5c21f4b45aa9bd72d84f25be, type: 2}
   m_Animations:
@@ -1230,6 +1231,23 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!95 &1846923058
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1846923055}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7eb9dac47f5759046b2ca2b37af54e36, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &1914713911
 Prefab:
   m_ObjectHideFlags: 0
@@ -1239,7 +1257,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4693909106829178, guid: 272b6a201dd139741830e17024ea0fb1, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 12.19
+      value: 3.23
       objectReference: {fileID: 0}
     - target: {fileID: 4693909106829178, guid: 272b6a201dd139741830e17024ea0fb1, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1247,7 +1265,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4693909106829178, guid: 272b6a201dd139741830e17024ea0fb1, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 25.52
+      value: 4.21
       objectReference: {fileID: 0}
     - target: {fileID: 4693909106829178, guid: 272b6a201dd139741830e17024ea0fb1, type: 2}
       propertyPath: m_LocalRotation.x

@@ -267,38 +267,47 @@ public class WoodcutterSZScript : SmartZoneParentScript
     }
     void ParentAndAnimate(WispScript WispScriptRef)
     {
-        bool ExecuteThis;
-        foreach(Transform child in transform)
+        //bool ExecuteThis;
+        //foreach(Transform child in transform)
+        //{
+        //    ExecuteThis = true;
+        //    if (child.name == "Anim1")
+        //    {
+        //        //If a child exists under Anim1
+        //        foreach (Transform subchild in child.transform)
+        //        {
+        //            ExecuteThis = false;
+        //        }
+        //        //If no child was found
+        //        if (ExecuteThis)
+        //        {
+        //            AnimateCount = 0;
+        //            break;
+        //        }
+        //    }
+        //    else if (child.name == "Anim2")
+        //    {
+        //        //If a child exists under Anim1
+        //        foreach (Transform subchild in child.transform)
+        //        {
+        //            ExecuteThis = false;
+        //        }
+        //        //If no child was found
+        //        if (ExecuteThis)
+        //        {
+        //            AnimateCount = 1;
+        //            break;
+        //        }
+        //    }
+        //}
+
+        if(WispScriptRef.name == "Wisp")
         {
-            ExecuteThis = true;
-            if (child.name == "Anim1")
-            {
-                //If a child exists under Anim1
-                foreach (Transform subchild in child.transform)
-                {
-                    ExecuteThis = false;
-                }
-                //If no child was found
-                if (ExecuteThis)
-                {
-                    AnimateCount = 0;
-                    break;
-                }
-            }
-            else if (child.name == "Anim2")
-            {
-                //If a child exists under Anim1
-                foreach (Transform subchild in child.transform)
-                {
-                    ExecuteThis = false;
-                }
-                //If no child was found
-                if (ExecuteThis)
-                {
-                    AnimateCount = 1;
-                    break;
-                }
-            }
+            AnimateCount = 0;
+        }
+        else if(WispScriptRef.name == "Wisp (1)")
+        {
+            AnimateCount = 1;
         }
         AnimateWisp(WispScriptRef);
     }

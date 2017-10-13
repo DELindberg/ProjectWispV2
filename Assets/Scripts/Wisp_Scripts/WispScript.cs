@@ -363,19 +363,56 @@ public class WispScript : MonoBehaviour
     //FOR TESTING!! Automatic assignment of Wisps to a workplace
     void AssignWorkplace()
     {
+
+        //TODO: Rewrite this to assign the closest woodcutter, so that we can test having multiple instances
+        //for (int i = 0; i < SmartZoneControllerRef.ListOfSmartZones.Count; i++)
+        //{
+        //    Debug.Log("For loop run");
+        //    //Change the string when matching against other Smart Zone types
+        //    if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "woodcutter" && SmartZoneControllerRef.ListOfSmartZones[i].AssignedWisps.Count < SmartZoneControllerRef.ListOfSmartZones[i].WispLimit)
+        //    {
+        //        Debug.Log("Workplace assigned");
+        //        AssignedBuildingID = SmartZoneControllerRef.ListOfSmartZones[i].ZoneID;
+        //        WorkLocation = SmartZoneControllerRef.ListOfSmartZones[i].gameObject.transform.position;
+        //        GoWork();       //Go to the work location we've found
+        //        break;  //Only assign to the first building we find
+        //    }
+        //}
+
+        //Initialized to prevent errors
+        Vector3 FinalCoordinate = this.transform.position;
+        float ShortestDistance = float.MaxValue;
+
+        //Used to refer to the most optimal Forest node we'll find
+        WoodcutterSZScript WoodcutterRef = null;
+
+        //Look through the list of Smart Zones for someplace that serves the input resource, call Wisp Fetch behavior on it
         for (int i = 0; i < SmartZoneControllerRef.ListOfSmartZones.Count; i++)
         {
-            Debug.Log("For loop run");
-            //Change the string when matching against other Smart Zone types
-            if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "woodcutter" && SmartZoneControllerRef.ListOfSmartZones[i].AssignedWisps.Count < SmartZoneControllerRef.ListOfSmartZones[i].WispLimit)
+            //Debug.Log("Iterating through: " + SmartZoneControllerRef.ListOfSmartZones[i].ZoneType);
+
+            //If the Smart Zone checked is a forest node
+            if (SmartZoneControllerRef.ListOfSmartZones[i].ZoneType == "woodcutter")
             {
-                Debug.Log("Workplace assigned");
-                AssignedBuildingID = SmartZoneControllerRef.ListOfSmartZones[i].ZoneID;
-                WorkLocation = SmartZoneControllerRef.ListOfSmartZones[i].gameObject.transform.position;
-                GoWork();       //Go to the work location we've found
-                break;  //Only assign to the first building we find
+                //Connect to the forest node
+                WoodcutterSZScript WoodcutterTempRef = SmartZoneControllerRef.ListOfSmartZones[i].GetComponent<WoodcutterSZScript>();
+
+                //If there's one or more of the resource available and it's the closest observed node so far
+                if (Vector3.Distance(this.transform.position, SmartZoneControllerRef.ListOfSmartZones[i].transform.position) < ShortestDistance)
+                {
+                    //Set the new final coordinate
+                    FinalCoordinate = SmartZoneControllerRef.ListOfSmartZones[i].transform.position;
+                    //Update shortest distance to the newly observed shortest distance
+                    ShortestDistance = Vector3.Distance(this.transform.position, SmartZoneControllerRef.ListOfSmartZones[i].transform.position);
+
+                    //Update the reference to the newly found best candidate
+                    WoodcutterRef = WoodcutterTempRef;
+                }
             }
         }
+        AssignedBuildingID = WoodcutterRef.ZoneID;
+        WorkLocation = WoodcutterRef.gameObject.transform.position;
+        GoWork();
     }
 
 }

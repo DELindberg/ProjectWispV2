@@ -14,7 +14,7 @@ public class WispScript : MonoBehaviour
                             //or someplace it has chosen to go on its own accord that is not the Smart Zone it works in
     
     //Coordinate storage to prevent the Wisps from making unnecessary queries when pathfinding
-    Vector3 WorkLocation;
+    public Vector3 WorkLocation;
     
     //Counting-variable used to determine querying priority by the Wisp Controller
     public float TimeSinceQuery;

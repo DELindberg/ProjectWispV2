@@ -17,7 +17,154 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
         PreBuildInAwake();
     }
 
+    protected void CustomUpdate(string ResourceName, int AmountToGive)
+    {
+        if (ReservationList.Count > 0)
+        {
+            foreach (Reservation Element in ReservationList)
+            {
+                //Debug.Log("Distance is: " + Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position));
+                if (Element.RNodeListSpawnpointList.Count > 0)
+                {
+                    //If the distance between the last reserved spawnpoint and the Wisp is small enough, and the Reservation is executing
+                    if (Vector3.Distance(Element.RNodeListSpawnpointList[0].SpawnpointObject.transform.position, Element.WispScriptRef.transform.position) < 0.6
+                        && Element.ReservationExecuting)
+                    {
+                        //Destroy mesh after specified delay
+                        Element.RNodeListSpawnpointList[0].DestroyMesh();
+                        //Remove the last spawnpoint from the list after a delay
+                        Element.RemoveFirstReservation();
 
+                        //Add to inventory
+                        Element.WispScriptRef.AddResource(ResourceName, AmountToGive);
+                        Element.WispScriptRef.CurrentlyCarrying++;
+                        LocalResources[0].Amount--;
+
+                        //Order the Wisp to move on to the next spawnpoint
+                        FetchNext(Element.WispScriptRef);
+
+                        //If we're reaching the last reservation in the list
+                        if (Element.RNodeListSpawnpointList.Count == 0)
+                        {
+                            Element.ReservationExecuting = false;
+                        }
+
+                    }
+
+                }
+                //TODO: This solution is a bit wonky, would perhaps be better to have it all in the same statement
+                else
+                {
+                    //Destroy mesh after specified delay
+                    FetchNext(Element.WispScriptRef);
+                    ReservationList.RemoveAt(GetReservationIndex(Element.WispScriptRef));
+                    Debug.Log("ReservationList count at: " + ReservationList.Count);
+                    break;
+                }
+            }
+        }
+    }
+    
+    //Runs through the list of spawnpoints and randomly picks one of the available spots to generate a resource on
+    protected void GenerateResource(string ModelDirectory, float MinimumScale)
+    {
+        //TODO: This might need some tweaking, it only every takes up the first 9-10 spawnpoints, but that's ok mechanically for now
+        int ToSubtract = (int)(RandomDouble(ResourceLimit - ReturnSpawned()));
+        //Debug.Log("ToSubtract at: " + ToSubtract);
+        foreach (RNodeSpawnpoint Spawnpoint in ListOfSpawnpoints)
+        {
+            if (!Spawnpoint.HasSpawned)
+            {
+                ToSubtract--;
+                if (ToSubtract == 0)
+                {
+                    Spawnpoint.LoadMesh(ModelDirectory, MinimumScale);
+                    Spawnpoint.HasSpawned = true;
+                    Spawnpoint.IsReserved = false;
+                    LocalResources[0].Amount++;
+
+                    //Debug.Log("Tree spawned,  total resources at: " + LocalResources[0].Amount);
+                    break;
+                }
+            }
+        }
+    }
+
+    //Check if there's at least one tree available to be reserved
+    public bool CanReserve()
+    {
+        bool ToReturn = false;
+        foreach (RNodeSpawnpoint Element in ListOfSpawnpoints)
+        {
+            if (Element.HasSpawned && !Element.IsReserved)
+            {
+                ToReturn = true;
+                break;
+            }
+        }
+        return ToReturn;
+    }
+
+    protected void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "wisp")
+        {
+            WispScript TempWispRef = other.GetComponent<WispScript>();
+            //TODO: Check if there's any references to the Wisp in the local list of reservations - if so, send it around to pick up the reserved trees
+            for (int i = 0; i < ReservationList.Count; i++)
+            {
+                if (TempWispRef.WispName == ReservationList[i].WispScriptRef.WispName &&
+                    TempWispRef.IsFetching)
+                {
+                    BeginFetching(TempWispRef);
+                }
+            }
+        }
+    }
+
+    //Initialize the elements of the Spawnpoint array
+    protected void PopulateListOfSpawnpoints()
+    {
+        for (int i = 0; i < ListOfSpawnpoints.Length; i++)
+        {
+            ListOfSpawnpoints[i] = new RNodeSpawnpoint();
+        }
+    }
+
+    //Takes the Wisp reference, reserves up to the amount that the Wisp can carry, or less if less are available
+    public void MakeReservation(WispScript WispScriptRef)
+    {
+        Reservation NewReservation = new Reservation();
+
+        //Write the Wisp into the reservation
+        NewReservation.WispScriptRef = WispScriptRef;
+
+        //If there's any Wisps available
+        if (WispScriptRef != null)
+        {
+            //Iterate through the Spawnpoints of the resource node
+            for (int i = 0; i < ListOfSpawnpoints.Length; i++)
+            {
+                if (ReturnSpawned() >= 1 &&              //If there's one or more trees left
+                    ListOfSpawnpoints[i].HasSpawned &&  //If the currently checked node has a tree on it
+                    !ListOfSpawnpoints[i].IsReserved && //If the currently checked node isn't already reserved
+                    WispScriptRef.CurrentlyReserved < WispScriptRef.CarryCapacity)  //If the Wisp can still carry more resources
+                {
+                    //Reserve the resource, add one to the currently reserved number in the Wisp
+                    ListOfSpawnpoints[i].IsReserved = true;
+                    WispScriptRef.CurrentlyReserved++;
+                    //Add the spawnpoint to the Reservation object
+                    NewReservation.MakeReservation(ListOfSpawnpoints[i]);
+                }
+            }
+            //File the Reservation object to the Resource Node's list of reservations
+            ReservationList.Add(NewReservation);
+        }
+        else
+        {
+            Debug.Log("No reservation was made due to no Wisps being available");
+        }
+    }
 
     //Class representing the Spawnpoints and the trees
     public class RNodeSpawnpoint
@@ -97,11 +244,19 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
     {
         int ReservationNumber = GetReservationIndex(WispScriptRef);
 
-        //Assign the location of the last spawnpoint found in the list of spawnpoints inside of the Reservation
-        Vector3 SpawnpointLocation = ReservationList[ReservationNumber].RNodeListSpawnpointList[0].SpawnpointObject.transform.position;
-        Debug.Log("Fetch next executing!");
-        //Go to the location of the last spawnpoint in the list
-        WispScriptRef.gameObject.GetComponent<NavMeshAgent>().SetDestination(SpawnpointLocation);
+        //If there's any next to fetch
+        if (ReservationList[ReservationNumber].RNodeListSpawnpointList.Count > 0)
+        {
+            //Assign the location of the last spawnpoint found in the list of spawnpoints inside of the Reservation
+            Vector3 SpawnpointLocation = ReservationList[ReservationNumber].RNodeListSpawnpointList[0].SpawnpointObject.transform.position;
+            Debug.Log("Fetch next executing!");
+            //Go to the location of the last spawnpoint in the list
+            WispScriptRef.gameObject.GetComponent<NavMeshAgent>().SetDestination(SpawnpointLocation);
+        }
+        else //Send it back
+        {
+            WispScriptRef.gameObject.GetComponent<NavMeshAgent>().SetDestination(WispScriptRef.WorkLocation);
+        }
     }
     public int GetReservationIndex(WispScript WispScriptRef)
     {

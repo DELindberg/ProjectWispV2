@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HuntingLodgeSZScript : SmartZoneParentScript
+public class HuntingLodgeSZScript : BuildingParentScript
 {
     //Add more of these if you ever add more input or output resources to the building
     int InputResourceID;

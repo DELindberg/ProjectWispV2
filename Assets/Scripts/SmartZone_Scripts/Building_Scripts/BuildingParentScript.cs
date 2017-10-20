@@ -9,7 +9,7 @@ public class BuildingParentScript : SmartZoneParentScript {
      * simply cut the code from this class and paste it into the SmartZoneParentScript to make it more widely available
      */
 
-    //Return the first available AnimationID - MIGHT WANT TO RUN AN ISOLATED TEST ON THIS SYSTEM
+    //Return the first available AnimationID
     protected int ReturnFirstAvailable(int WispLimit, List<WispScript> AssignedWisps)
     {
         int ToReturn = 0;
@@ -99,7 +99,7 @@ public class BuildingParentScript : SmartZoneParentScript {
     }
 
     //Return true if there's still room for more Wisps
-    protected bool CheckIfRoom()
+    public bool CheckIfRoom()
     {
         bool IfRoom = false;
 

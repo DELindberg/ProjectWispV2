@@ -17,6 +17,7 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
         PreBuildInAwake();
     }
 
+    //The name of the resource given and the amount given for each pickup
     protected void CustomUpdate(string ResourceName, int AmountToGive)
     {
         if (ReservationList.Count > 0)
@@ -79,6 +80,42 @@ public class ResourceNodeParentScript : SmartZoneParentScript {
                 if (ToSubtract == 0)
                 {
                     Spawnpoint.LoadMesh(ModelDirectory, MinimumScale);
+                    Spawnpoint.HasSpawned = true;
+                    Spawnpoint.IsReserved = false;
+                    LocalResources[0].Amount++;
+
+                    //Debug.Log("Tree spawned,  total resources at: " + LocalResources[0].Amount);
+                    break;
+                }
+            }
+        }
+    }
+
+    //Overload to handle multiple models for GenerateResource, randomly selects between the given models
+    protected void GenerateResource(string ModelDirectory, string ModelDirectory2, float MinimumScale)
+    {
+        string ToLoad;
+
+        if ((RandomDouble(1)) < 0.5)
+        {
+            ToLoad = ModelDirectory;
+        }
+        else
+        {
+            ToLoad = ModelDirectory2;
+        }
+
+        //TODO: This might need some tweaking, it only every takes up the first 9-10 spawnpoints, but that's ok mechanically for now
+        int ToSubtract = (int)(RandomDouble(ResourceLimit - ReturnSpawned()));
+        //Debug.Log("ToSubtract at: " + ToSubtract);
+        foreach (RNodeSpawnpoint Spawnpoint in ListOfSpawnpoints)
+        {
+            if (!Spawnpoint.HasSpawned)
+            {
+                ToSubtract--;
+                if (ToSubtract == 0)
+                {
+                    Spawnpoint.LoadMesh(ToLoad, MinimumScale);
                     Spawnpoint.HasSpawned = true;
                     Spawnpoint.IsReserved = false;
                     LocalResources[0].Amount++;

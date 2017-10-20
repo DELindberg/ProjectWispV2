@@ -398,7 +398,8 @@ public class WispScript : MonoBehaviour
                 WoodcutterSZScript WoodcutterTempRef = SmartZoneControllerRef.ListOfSmartZones[i].GetComponent<WoodcutterSZScript>();
 
                 //If there's one or more of the resource available and it's the closest observed node so far
-                if (Vector3.Distance(this.transform.position, SmartZoneControllerRef.ListOfSmartZones[i].transform.position) < ShortestDistance)
+                if (Vector3.Distance(this.transform.position, SmartZoneControllerRef.ListOfSmartZones[i].transform.position) < ShortestDistance &&
+                    WoodcutterTempRef.CheckIfRoom())
                 {
                     //Set the new final coordinate
                     FinalCoordinate = SmartZoneControllerRef.ListOfSmartZones[i].transform.position;
